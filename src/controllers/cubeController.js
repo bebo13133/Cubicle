@@ -4,6 +4,7 @@ const {log}=require('console')
 
 router.get('/create', (req, res) => {
     log(cubeService.getAll())
+
     res.render('create',);
 
 })
@@ -17,7 +18,8 @@ router.post('/create', (req, res) => {
     cubeService.create({ name, 
         description, 
         imageUrl, 
-        difficultyLevel: Number(difficultyLevel)})
+        difficultyLevel: Number(difficultyLevel),
+    })
 
     res.redirect('/')
 })

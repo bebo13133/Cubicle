@@ -1,11 +1,14 @@
+const crypto = require('crypto');
+// const uuid4 = crypto.randomUUID()
 const cubes =[]
+
 
 exports.getAll =()=> cubes.slice()
 
 exports.create =(dateCube)=>{
-
+const userID = crypto.randomUUID()
 const newCube = {
-    id: cubes.length +1,
+    userID,
     ...dateCube,
 }
 
