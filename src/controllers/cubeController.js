@@ -21,6 +21,12 @@ router.post('/create', (req, res) => {
         difficultyLevel: Number(difficultyLevel),
     })
 
+
     res.redirect('/')
+})
+
+router.get('/:userID/details', (req, res) => {
+   const cube = cubeService.getOne(req.params.userID)
+    res.render('details',{cube})
 })
 module.exports = router
