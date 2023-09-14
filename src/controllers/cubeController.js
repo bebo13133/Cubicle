@@ -27,6 +27,7 @@ router.post('/create', (req, res) => {
 
 router.get('/:userID/details', (req, res) => {
    const cube = cubeService.getOne(req.params.userID)
-    res.render('details',{cube})
+
+  return !cube ?  res.redirect('/404'): res.render('details',{cube})
 })
 module.exports = router

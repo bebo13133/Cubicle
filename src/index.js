@@ -13,5 +13,8 @@ require('./config/express')(app);
 app.use(homeController)
 app.use("/cubes",cubeController)
 
+app.get('*', (req, res) => {
+    res.redirect('/404')
+})
 //routes 
 app.listen(PORT, () => log(`Server running on ${PORT}`))
