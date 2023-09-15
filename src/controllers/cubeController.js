@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const cubeService = require('../services/cubeService')
-const {log}=require('console')
+const { log } = require('console')
 
 router.get('/create', (req, res) => {
     log(cubeService.getAll())
@@ -10,14 +10,15 @@ router.get('/create', (req, res) => {
 })
 
 router.post('/create', (req, res) => {
-    const { name, 
-        description, 
-        imageUrl, 
+    const { name,
+        description,
+        imageUrl,
         difficultyLevel,
-     } = req.body
-    cubeService.create({ name, 
-        description, 
-        imageUrl, 
+    } = req.body
+    cubeService.create({
+        name,
+        description,
+        imageUrl,
         difficultyLevel: Number(difficultyLevel),
     })
 
@@ -26,8 +27,8 @@ router.post('/create', (req, res) => {
 })
 
 router.get('/:userID/details', (req, res) => {
-   const cube = cubeService.getOne(req.params.userID)
+    const cube = cubeService.getOne(req.params.userID)
 
-  return !cube ?  res.redirect('/404'): res.render('details',{cube})
+    return !cube ? res.redirect('/404') : res.render('details', { cube })
 })
 module.exports = router
