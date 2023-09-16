@@ -1,6 +1,8 @@
 const router = require('express').Router()
 const cubeService = require('../services/cubeService')
 const { log } = require('console')
+const accessoryService = require('../services/accessoryService')
+
 
 router.get('/create', (req, res) => {
     log(cubeService.getAll())
@@ -33,7 +35,11 @@ log(req.params.cubeId)
     return !cube ? res.redirect('/404') : res.render('details', { cube })
 });
 
-router.get('//:cubeId/attach-accessory',(req,res)=>{
+router.get('/:cubeId/attach-accessory', async (req,res)=>{
+const cube = await cubeService.getOne(req.params.cubeId).lean()
+// const accessory = await 
+res.render("accessory/attach", {cube})
+
 
 })
 
