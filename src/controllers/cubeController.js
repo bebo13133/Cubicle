@@ -29,7 +29,14 @@ router.post('/create', async (req, res) => {
 router.get('/:cubeId/details', async (req, res) => {
    
     const cube = await cubeService.getOne(req.params.cubeId).lean()
-
+log(req.params.cubeId)
     return !cube ? res.redirect('/404') : res.render('details', { cube })
+});
+
+router.get('//:cubeId/attach-accessory',(req,res)=>{
+
 })
+
+
+
 module.exports = router
