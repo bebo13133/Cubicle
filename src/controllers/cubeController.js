@@ -27,9 +27,9 @@ router.post('/create', async (req, res) => {
 })
 
 router.get('/:cubeId/details', async (req, res) => {
-    log(req.params)
+   
     const cube = await cubeService.getOne(req.params.cubeId).lean()
-console.log(cube)
+
     return !cube ? res.redirect('/404') : res.render('details', { cube })
 })
 module.exports = router
