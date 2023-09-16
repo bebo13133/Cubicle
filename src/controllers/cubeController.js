@@ -9,13 +9,13 @@ router.get('/create', (req, res) => {
 
 })
 
-router.post('/create', (req, res) => {
+router.post('/create', async (req, res) => {
     const { name,
         description,
         imageUrl,
         difficultyLevel,
     } = req.body
-    cubeService.create({
+  await  cubeService.create({
         name,
         description,
         imageUrl,
@@ -26,9 +26,10 @@ router.post('/create', (req, res) => {
     res.redirect('/')
 })
 
-router.get('/:userID/details', (req, res) => {
-    const cube = cubeService.getOne(req.params.userID)
-
+router.get('/:cubeId/details', async (req, res) => {
+    log(req.params)
+    const cube = await cubeService.getOne(req.params.cubeId).lean()
+console.log(cube)
     return !cube ? res.redirect('/404') : res.render('details', { cube })
 })
 module.exports = router
