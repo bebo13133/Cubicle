@@ -7,3 +7,4 @@ exports.createAccessory = async (dataAccessory) => {
 
 }
 exports.getAll = () => Accessory.find()
+exports.getAccessories=(accessoriesId)=> Accessory.find({_id:{$nin: accessoriesId}})
