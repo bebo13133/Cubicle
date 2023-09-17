@@ -13,10 +13,18 @@ exports.getAll = async (search, from, to) => {
 
     return result
 }
-exports.getOne = (cubeId) => Cube.findById(cubeId)
+exports.getOne = (cubeId) => Cube.findById(cubeId).populate('accessories')
 
 exports.create = async (dateCube) => {
  const newCube= await Cube.create(dateCube);
 
     return newCube
+}
+
+exports.attachAcc= async (cubeId, accessory)=>{
+    return Cube,Cube.findByIdAndUpdate(cubeId, {$push : {accessories: accessory}} )
+
+
+
+
 }

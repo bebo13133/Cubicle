@@ -8,7 +8,7 @@ const cubeSchema = new mongoose.Schema({
         required: true,
         minLength: 3,
         maxLength: 25,
-
+    
     },
     description: String,
     imageUrl: String,
@@ -16,7 +16,12 @@ const cubeSchema = new mongoose.Schema({
         type: Number,
         required: true,
         minLength: 1,   
-    }
+    },
+    accessories:[{
+        type: mongoose.Types.ObjectId,
+        ref:"Accessory"
+    }],
+
 })
 
 const Cube = mongoose.model('Cube', cubeSchema);

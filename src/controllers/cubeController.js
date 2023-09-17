@@ -31,19 +31,27 @@ router.post('/create', async (req, res) => {
 router.get('/:cubeId/details', async (req, res) => {
 
     const cube = await cubeService.getOne(req.params.cubeId).lean()
-    return !cube ? res.redirect('/404') : res.render('details', { cube })
+
+    const hasAccessory = cube.accessories.length>0
+    return !cube ? res.redirect('/404') : res.render('details', { cube,hasAccessory })
 });
 
 router.get('/:cubeId/attach-accessory', async (req, res) => {
     const accessory = await accessoryService.getAll().lean()
-
+    const hasAccessory = accessory.length > 0  // ако имаме аксесоари - подаваме като параметър за да го плзваме като if проверка в attach.hbs и details.hbs
     const cube = await cubeService.getOne(req.params.cubeId).lean()
     // const accessory = await 
-    res.render("accessory/attach", { cube ,accessory})
-
-
+    res.render("accessory/attach", { cube, accessory, hasAccessory })
 })
 
+router.post('/:cubeId/attach-accessory', async (req, res) => {
+    const {accessory}=req.body // получаваме accessory id-to
+    const cubeId = req.params.cubeId
+
+    await cubeService.attachAcc(cubeId, accessory)
+    
+    res.redirect(`/cubes/${cubeId}/details`)
+})
 
 
 module.exports = router
