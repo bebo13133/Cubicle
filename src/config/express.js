@@ -3,6 +3,7 @@ const handlebars = require('express-handlebars');
 const bodyParser = require('body-parser');
 const path = require('path');
 
+const cookieParser = require('cookie-parser');
 module.exports = (app) => {
     
   //TODO: Handlebars config
@@ -17,5 +18,6 @@ app.set('views', 'src/views');
 app.use(express.urlencoded({ extended: false}));
 //TODO: Express static configuration
 app.use(express.static('src/static'));
+app.use(cookieParser());
 
 };

@@ -1,5 +1,7 @@
 const router = require('express').Router();
 const userService = require('../services/userService')
+const User = require('../models/User')
+
 
 router.get('/register', (req,res) => {
 res.render('./users/register');
@@ -21,7 +23,9 @@ router.post('/login', async (req,res)=>{
 const {username, password} = req.body
 
 
-await userService.login(username, password)
+const token = await userService.login(username, password)
+
+res.cookie('auth', token,{httpOnly: true})
 
 res.redirect("/")
 })
