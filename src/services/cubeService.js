@@ -20,6 +20,9 @@ exports.create = async (dateCube) => {
 
     return newCube
 }
+exports.delete = (cubeId) => Cube.findByIdAndDelete(cubeId).populate('accessories')
+exports.edit = (cubeId,cubeData) => Cube.findByIdAndUpdate(cubeId,cubeData).populate('accessories')
+
 
 exports.attachAcc= async (cubeId, accessory)=>{
     return Cube,Cube.findByIdAndUpdate(cubeId, {$push : {accessories: accessory}} )
