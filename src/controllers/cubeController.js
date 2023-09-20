@@ -1,11 +1,25 @@
 const router = require('express').Router()
 const cubeService = require('../services/cubeService')
 const { log } = require('console')
+const {isAuth} = require('../middlewares/authMiddleware')
+
 const accessoryService = require('../services/accessoryService')
+router.get('/:cubeId/details', async (req, res) => {
+
+    const cube = await cubeService.getOne(req.params.cubeId).lean()
+
+const isOwner = cube.owner?.toString() === req.user?._id
+
+    const hasAccessory = cube.accessories.length > 0
+    return !cube ? res.redirect('/404') : res.render('cube/details', { cube, isOwner })
+});
+
+router.use(isAuth) //! Important
 
 
 router.get('/create', (req, res) => {
-log(req.user)
+    // if(cube.owner.toString() !== req.user._id) return res.redirect('/404')
+
 
     res.render('cube/create',);
 
@@ -26,18 +40,11 @@ router.post('/create', async (req, res) => {
     })
 
 
+
     res.redirect('/')
 })
 
-router.get('/:cubeId/details', async (req, res) => {
 
-    const cube = await cubeService.getOne(req.params.cubeId).lean()
-
-const isOwner = cube.owner?.toString() == req.user._id
-
-    const hasAccessory = cube.accessories.length > 0
-    return !cube ? res.redirect('/404') : res.render('cube/details', { cube, isOwner })
-});
 
 router.get('/:cubeId/attach-accessory', async (req, res) => {
 
@@ -60,11 +67,14 @@ router.post('/:cubeId/attach-accessory', async (req, res) => {
 
 router.get('/:cubeId/delete', async (req, res) => {
     const cube= await cubeService.getOne(req.params.cubeId).lean()
-    log(cube)
+    if(cube.owner.toString() != req.user?._id) return res.redirect('/404')
+   
 
     res.render("cube/delete", { cube })
 })
 router.post('/:cubeId/delete', async (req, res) =>{
+
+
 
 await cubeService.delete(req.params.cubeId)
 res.redirect('/')
@@ -75,7 +85,8 @@ res.redirect('/')
 router.get('/:cubeId/edit', async (req, res) => {
 
     const cube= await cubeService.getOne(req.params.cubeId).lean()
- 
+    if(cube.owner.toString() !== req.user?._id) return res.redirect('/404')
+
     res.render("cube/edit", { cube})
 });
 
