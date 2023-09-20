@@ -33,8 +33,10 @@ router.get('/:cubeId/details', async (req, res) => {
 
     const cube = await cubeService.getOne(req.params.cubeId).lean()
 
+const isOwner = cube.owner?.toString() == req.user._id
+
     const hasAccessory = cube.accessories.length > 0
-    return !cube ? res.redirect('/404') : res.render('cube/details', { cube, hasAccessory })
+    return !cube ? res.redirect('/404') : res.render('cube/details', { cube, isOwner })
 });
 
 router.get('/:cubeId/attach-accessory', async (req, res) => {
