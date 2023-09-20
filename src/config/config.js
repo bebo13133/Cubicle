@@ -4,3 +4,4 @@
 //     },
 //     production: {}
 // };
+exports.SECRET_KEY = "veryverynamesstartwithniki"

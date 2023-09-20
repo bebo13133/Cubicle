@@ -5,7 +5,7 @@ const accessoryService = require('../services/accessoryService')
 
 
 router.get('/create', (req, res) => {
-
+log(req.user)
 
     res.render('create',);
 

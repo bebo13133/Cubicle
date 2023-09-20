@@ -12,7 +12,7 @@ const {username, password, repeatPassword} = req.body
 
 await userService.register({username, password, repeatPassword})
 
-res.redirect('/users/login') //todo: да се промени на логин страницата
+res.redirect('/users/login')       // ? да се промени на login страницата - done!
 
 });
 
