@@ -1,14 +1,14 @@
 const router = require('express').Router()
 const cubeService = require('../services/cubeService')
 const { log } = require('console')
-const {isAuth} = require('../middlewares/authMiddleware')
+const { isAuth } = require('../middlewares/authMiddleware')
 
 const accessoryService = require('../services/accessoryService')
 router.get('/:cubeId/details', async (req, res) => {
 
     const cube = await cubeService.getOne(req.params.cubeId).lean()
 
-const isOwner = cube.owner?.toString() === req.user?._id
+    const isOwner = cube.owner?.toString() === req.user?._id
 
     const hasAccessory = cube.accessories.length > 0
     return !cube ? res.redirect('/404') : res.render('cube/details', { cube, isOwner })
@@ -36,7 +36,7 @@ router.post('/create', async (req, res) => {
         description,
         imageUrl,
         difficultyLevel: Number(difficultyLevel),
-        owner:req.user._id,
+        owner: req.user._id,
     })
 
 
@@ -66,35 +66,35 @@ router.post('/:cubeId/attach-accessory', async (req, res) => {
 })
 
 router.get('/:cubeId/delete', async (req, res) => {
-    const cube= await cubeService.getOne(req.params.cubeId).lean()
-    if(cube.owner.toString() != req.user?._id) return res.redirect('/404')
-   
+    const cube = await cubeService.getOne(req.params.cubeId).lean()
+    if (cube.owner.toString() != req.user?._id) return res.redirect('/404')
+
 
     res.render("cube/delete", { cube })
 })
-router.post('/:cubeId/delete', async (req, res) =>{
+router.post('/:cubeId/delete', async (req, res) => {
 
 
 
-await cubeService.delete(req.params.cubeId)
-res.redirect('/')
+    await cubeService.delete(req.params.cubeId)
+    res.redirect('/')
 
 })
 
 
 router.get('/:cubeId/edit', async (req, res) => {
 
-    const cube= await cubeService.getOne(req.params.cubeId).lean()
-    if(cube.owner.toString() !== req.user?._id) return res.redirect('/404')
+    const cube = await cubeService.getOne(req.params.cubeId).lean()
+    if (cube.owner.toString() !== req.user?._id) return res.redirect('/404')
 
-    res.render("cube/edit", { cube})
+    res.render("cube/edit", { cube })
 });
 
-router.post('/:cubeId/edit', async (req, res) =>{
-    
+router.post('/:cubeId/edit', async (req, res) => {
+
     const cubeData = req.body
-    const cube= await cubeService.getOne(req.params.cubeId)
-    await cubeService.edit(req.params.cubeId,cubeData)
+    const cube = await cubeService.getOne(req.params.cubeId)
+    await cubeService.edit(req.params.cubeId, cubeData)
 
 
     res.redirect(`/cubes/${req.params.cubeId}/details`)
