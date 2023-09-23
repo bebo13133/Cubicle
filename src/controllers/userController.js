@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const userService = require('../services/userService')
 const User = require('../models/User')
-
+const { extractErrorMessage } = require('../utils/errorHelpers')
 
 router.get('/register', (req, res) => {
     res.render('./users/register');
@@ -15,9 +15,9 @@ router.post('/register', async (req, res) => {
 
         res.redirect('/users/login')       // ? да се промени на login страницата - done!
     } catch (err) {
-        const errorMessages = Object.values(err.errors).map(err => err.message)
+        const errorMessages = extractErrorMessage(err)
 
-        res.status(400).render('./users/register',{errorMessages: errorMessages})
+        res.status(400).render('./users/register', { errorMessages })
     }
 
 
